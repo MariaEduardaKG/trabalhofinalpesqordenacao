@@ -1,5 +1,5 @@
 # trabalhofinalpesqordenacao
-Trabalho final de Pesquisa e Ordenação - Maria Eduarda K.G
+#Trabalho final de Pesquisa e Ordenação - Maria Eduarda K.G
 from Gerador import Gerador
 
 
