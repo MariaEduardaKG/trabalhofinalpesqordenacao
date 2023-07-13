@@ -1,0 +1,55 @@
+import csv
+class No:
+    def __init__(self, chave, nomeuf, municipio, nota):
+        self.chave = chave
+        self.nomeuf = nomeuf
+        self.municipio = municipio
+        self.nota = nota
+        self.esquerda = None
+        self.direita = None
+
+# Para inserir um nó na árvore de busca binária
+def inserirno(raiz, chave, nomeuf, municipio, nota):
+    if raiz is None:
+        return No(chave, nomeuf, municipio, nota)
+    if chave < raiz.chave:
+        raiz.esquerda = inserirno(
+            raiz.esquerda, chave, nomeuf, municipio, nota)
+    elif chave > raiz.chave:
+        raiz.direita = inserirno(raiz.direita, chave, nomeuf, municipio, nota)
+    return raiz
+
+# Para realizar a pesquisa em árvore de busca binária
+def pesquisaarvore(raiz, chave):
+    if raiz is None or raiz.chave == chave:
+        return raiz
+    if chave < raiz.chave:
+        return pesquisaarvore(raiz.esquerda, chave)
+    return pesquisaarvore(raiz.direita, chave)
+
+# árvore vazia
+arvore = None
+
+with open('C:\\Users\\User\\Desktop\\Projeto 1\\EBT.csv', 'r') as arquivo_csv:
+    # Criar um leitor CSV
+    leitor_csv = csv.reader(arquivo_csv, delimiter=';')
+    # Pular o cabeçalho
+    next(leitor_csv)
+    # Ler as linhas do arquivo e inserir os nós na árvore
+    for linha in leitor_csv:
+        chave = int(linha[8])
+        nomeuf = linha[6]
+        municipio = linha[7]
+        nota = float(linha[2])
+        arvore = inserirno(arvore, chave, nomeuf, municipio, nota)
+# pesquisa
+chave_pesquisa = int(input("Digite o código IBGE para pesquisar: "))
+registro_encontrado = pesquisaarvore(arvore, chave_pesquisa)
+if registro_encontrado:
+    print("Registro encontrado:")
+    print(f"Código IBGE: {registro_encontrado.chave}")
+    print(f"Nome UF: {registro_encontrado.nomeuf}")
+    print(f"Município: {registro_encontrado.municipio}")
+    print(f"Nota: {registro_encontrado.nota}")
+else:
+    print("Registro não encontrado.")
